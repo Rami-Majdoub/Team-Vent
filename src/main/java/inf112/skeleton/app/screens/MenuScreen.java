@@ -30,7 +30,7 @@ public class MenuScreen extends ScreenAdapter {
         // Map selector
         Label mapSelectorLabel = new Label("Map: ", skin);
         mapSelectorLabel.setFontScale(1.3f);
-        SelectBox mapSelectorBox = new SelectBox(skin);
+        SelectBox<String> mapSelectorBox = new SelectBox<>(skin);
         String[] mapSelectorOptions = {"map-1.tmx", "demo.tmx"};
         mapSelectorBox.setItems(mapSelectorOptions);
 
