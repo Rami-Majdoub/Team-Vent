@@ -15,7 +15,7 @@ import inf112.skeleton.app.controller.GameController;
 public class MenuScreen extends ScreenAdapter {
     private Stage stage;
 
-    public MenuScreen(RoboRallyGame game){
+    public MenuScreen(RoboRallyGame game) {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -37,31 +37,31 @@ public class MenuScreen extends ScreenAdapter {
 
         // Play button
         Button playButton = new TextButton("Play", skin);
-        playButton.addListener(new InputListener(){
+        playButton.addListener(new InputListener() {
             @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button){
-               new GameController(game, (String) mapSelectorBox.getSelected());
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                new GameController(game, mapSelectorBox.getSelected());
             }
 
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
         });
 
         // Exit button
         Button exitButton = new TextButton("Exit", skin);
-        exitButton.addListener(new InputListener(){
+        exitButton.addListener(new InputListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button){
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 Gdx.app.exit();
             }
 
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-            return true;
-        }
-    });
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
         table.top();
         // Add logo
         table.add(logo).top().colspan(2).padBottom(100).padTop(50);
@@ -85,7 +85,7 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     @Override
-    public void render(float delta){
+    public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
