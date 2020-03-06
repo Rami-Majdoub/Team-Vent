@@ -27,13 +27,6 @@ public class MenuScreen extends ScreenAdapter {
         Texture logoTexture = new Texture(Gdx.files.internal("logo.png"));
         Image logo = new Image(logoTexture);
 
-        // Resolution selector
-        Label resolutionLabel = new Label("Resolution: ", skin);
-        resolutionLabel.setFontScale(1.3f);
-        SelectBox resolutionBox = new SelectBox(skin);
-        String[] resolutionOptions = {"1366x768"};
-        resolutionBox.setItems(resolutionOptions);
-
         // Map selector
         Label mapSelectorLabel = new Label("Map: ", skin);
         mapSelectorLabel.setFontScale(1.3f);
@@ -47,10 +40,7 @@ public class MenuScreen extends ScreenAdapter {
         playButton.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button){
-                String selectedResolution = (String) resolutionBox.getSelected();
-                String resolutions[] = selectedResolution.split("x");
-                //Gdx.graphics.setWindowedMode(Integer.parseInt(resolutions[0]), Integer.parseInt(resolutions[1]));
-                new GameController(game, (String) mapSelectorBox.getSelected());
+               new GameController(game, (String) mapSelectorBox.getSelected());
             }
 
             @Override
@@ -65,7 +55,6 @@ public class MenuScreen extends ScreenAdapter {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button){
                 Gdx.app.exit();
-                System.exit(0);
             }
 
             @Override
@@ -74,17 +63,21 @@ public class MenuScreen extends ScreenAdapter {
         }
     });
         table.top();
+        // Add logo
         table.add(logo).top().colspan(2).padBottom(100).padTop(50);
         table.row().padBottom(25);
-        table.add(playButton).prefHeight(50).prefWidth(200).colspan(2);
-        table.row().padBottom(25);
+
+        // Add map selector
         table.add(mapSelectorLabel).right();
         table.add(mapSelectorBox).left();
         table.row().padBottom(25);
-        table.add(resolutionLabel).right();
-        table.add(resolutionBox).left();
+
+        // Add play button
+        table.add(playButton).prefHeight(50).prefWidth(200).colspan(2);
         table.row().padBottom(25);
-        table.add(exitButton).prefHeight(50).prefWidth(200).colspan(2).padTop(50);
+
+        // Add exit button
+        table.add(exitButton).prefHeight(50).prefWidth(200).colspan(2);
 
         table.setFillParent(true);
         table.setDebug(false);
