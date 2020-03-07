@@ -27,15 +27,13 @@ public class UIDemo implements ApplicationListener {
     int bottomTableHeight;
 
     @Override
-    public void create () {
+    public void create() {
         skin = new Skin(Gdx.files.internal("Skin/shade/skin/uiskin.json"));
         stage = new Stage(new ScreenViewport());
 
         // Important: the height of the bottom table determines the width and height of the map. The map scales itself
         // to fit within the space that remains
-        this.bottomTableHeight = 150;
-
-        int calc = (Gdx.graphics.getHeight() - bottomTableHeight);
+        this.bottomTableHeight = Gdx.graphics.getWidth() / 8;
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, ((float) Gdx.graphics.getWidth() / (Gdx.graphics.getHeight() -
@@ -44,7 +42,7 @@ public class UIDemo implements ApplicationListener {
 
         MapHandler mapHandler = new MapHandler("map-1.tmx");
         map = mapHandler.getMap();
-        renderer = new OrthogonalTiledMapRenderer(map, 1/100f);
+        renderer = new OrthogonalTiledMapRenderer(map, 1 / mapHandler.getTileLayer().getTileWidth());
 
         // The main table that takes up the entire screen
         rootTable = new Table(skin);
@@ -52,10 +50,6 @@ public class UIDemo implements ApplicationListener {
         rootTable.add().expand();
         rootTable.debug();
 
-        // The sidebar
-        Table sidebar = new Table(skin);
-        sidebar.add("STATS");
-        rootTable.add(sidebar).width(376); // todo: calculate this number as a function of the map width
         rootTable.row();
 
         // The bottom table
@@ -67,7 +61,7 @@ public class UIDemo implements ApplicationListener {
     }
 
     @Override
-    public void render () {
+    public void render() {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -78,8 +72,7 @@ public class UIDemo implements ApplicationListener {
         stage.act();
         stage.draw();
 
-        // Prepare for embedded map drawing by applying the desired viewport for the map
-        Gdx.gl.glViewport(0, bottomTableHeight, Gdx.graphics.getWidth(),  Gdx.graphics.getHeight() - bottomTableHeight);
+        Gdx.gl.glViewport(0, bottomTableHeight, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - bottomTableHeight);
         camera.update();
     }
 
@@ -99,8 +92,9 @@ public class UIDemo implements ApplicationListener {
     }
 
     @Override
-    public void resize (int width, int height) {
-        rootTable.setFillParent(true);
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+        camera.setToOrtho(false, ((float) width / (height - bottomTableHeight)) * 10, 10);
     }
 
     public static void main(String[] args) {
